@@ -1,0 +1,27 @@
+body, p, ul, li, div {
+    font-family: 'Slabo 27px', 'Microsoft JhengHei';
+}
+body {
+    padding-top: 20px;
+}
+h1 {
+    font-size: 22px;
+}
+h2 {
+    font-size: 16px;
+}
+header h2 {
+    font-size: 13px;
+}
+article pre code {
+    background-color: #FCFCFC;
+    border: 1px solid #DADADA;
+    margin: 15px 10px;
+    padding: 8px;
+    line-height: 1.6em;
+    font-size: 14px;
+    font-family: "Consolas", "Courier New";
+}
+article a {
+    text-decoration: underline;
+}

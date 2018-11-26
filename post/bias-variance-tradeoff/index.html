@@ -1,59 +1,35 @@
 <!DOCTYPE html>
 <html lang="en-us">
-
-<!-- Mirrored from www.albertauyeung.com/post/generating-ngrams-python/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 02 Nov 2018 14:48:01 GMT -->
-
 <head>
-
-
   <meta charset="UTF-8">
   <title>
-    Generating N-grams from Sentences Python | Albert Au Yeung
+    Bias-Variance Tradeoff (Geometric Intuition) | Mangesh Ingle
   </title>
-
-
-
   <meta name="viewport" content="width=device-width,user-scalable=no,maximum-scale=1,initial-scale=1">
-
-
   <link rel="canonical" href="index.html" />
-
-
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans">
   <link rel="stylesheet" href="../../css/sanitize.css">
   <link rel="stylesheet" href="../../css/responsive.css">
   <link rel="stylesheet" href="../../css/highlight.css">
   <link rel="stylesheet" href="../../css/theme.css">
   <link rel="stylesheet" href="../../css/custom.css">
-
-
-  <link href="../../index.xml" rel="alternate" type="application/rss+xml" title="Albert Au Yeung" />
-  <link href="../../index.xml" rel="feed" type="application/rss+xml" title="Albert Au Yeung" />
-
-
-
-
-
+  <link href="../../index.xml" rel="alternate" type="application/rss+xml" title="Mangesh Ingle" />
+  <link href="../../index.xml" rel="feed" type="application/rss+xml" title="Mangesh Ingle" />
 </head>
-
-
-
 <body>
   <div class="container">
-
-
     <header role="banner">
       <div class="row gutters">
         <div id="site-title" class="col span_6">
-          <h1><a href="../../index.html">Albert Au Yeung</a></h1>
-          <h2>Notes on machine learning and A.I.</h2>
+          <h1><a href="../../index.html">Mangesh Ingle</a></h1>
+          <h2>Data Explorer & Machine Learning Enthusiast</h2>
         </div>
         <div id="social" class="col span_6">
           <ul>
-            <li><a href="../../about/index.html">About</a></li>
-            <li><a href="../index.html">Archive</a></li>
-            <li><a href="https://github.com/albertauyeung" target="_blank">Github</a></li>
-            <li><a href="https://www.linkedin.com/in/albert-au-yeung/" target="_blank">LinkedIn</a></li>
+            <li><a href="about/index.html">About</a></li>
+            <li><a href="post/index.html">Archive</a></li>
+            <li><a href="https://github.com/mangeshingle" target="_blank">Github</a></li>
+            <li><a href="https://www.linkedin.com/in/mangesh-ingle-b53122176/" target="_blank">LinkedIn</a></li>
           </ul>
         </div>
       </div>
@@ -63,20 +39,17 @@
 
     <main id="single" role="main">
       <div class="article-header">
-        <h1>Generating N-grams from Sentences Python</h1>
+        <h1>Bias-Variance Tradeoff (Geometric Intuition)</h1>
         <div class="meta">
-
-          Jun 3, 2018 &nbsp;
-
-
+          Nov 26, 2018 &nbsp;
         </div>
       </div>
       <article>
 
 
-        <p><a href="https://en.wikipedia.org/wiki/N-gram">N-grams</a> are contiguous sequences of n-items in a
-          sentence. N can be 1, 2 or any other positive integers, although usually we do not consider very large N
-          because those n-grams rarely appears in many different places.</p>
+        <p><a href="https://en.wikipedia.org/wiki/N-gram">Bias-Variance Tradeoff</a> decomposition is a way of analyzing a learning algorithm's 
+          expected generalization error with respect to a particular problem as a sum of three terms, 
+          the bias, variance, and a quantity called the irreducible error, resulting from noise in the problem itself.</p>
 
         <p>When performing machine learning tasks related to natural language processing, we usually need to generate
           n-grams from input sentences. For example, in text classification tasks, in addition to using each individual

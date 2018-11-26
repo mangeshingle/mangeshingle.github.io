@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us">
+
 <head>
   <meta charset="UTF-8">
   <title>
@@ -16,6 +17,7 @@
   <link href="../../index.xml" rel="alternate" type="application/rss+xml" title="Mangesh Ingle" />
   <link href="../../index.xml" rel="feed" type="application/rss+xml" title="Mangesh Ingle" />
 </head>
+
 <body>
   <div class="container">
     <header role="banner">
@@ -47,142 +49,160 @@
       <article>
 
 
-        <p><a href="https://en.wikipedia.org/wiki/N-gram">Bias-Variance Tradeoff</a> decomposition is a way of analyzing a learning algorithm's 
-          expected generalization error with respect to a particular problem as a sum of three terms, 
+        <p><a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff">Bias-Variance Tradeoff</a>
+          decomposition is a way of analyzing a learning algorithm's
+          expected generalization error with respect to a particular problem as a sum of three terms,
           the bias, variance, and a quantity called the irreducible error, resulting from noise in the problem itself.</p>
 
-        <p>When performing machine learning tasks related to natural language processing, we usually need to generate
-          n-grams from input sentences. For example, in text classification tasks, in addition to using each individual
-          token found in the corpus, we may want to add bi-grams or tri-grams as features to represent our documents.
-          This post describes several different ways to generate n-grams quickly from input sentences in Python.</p>
+        <p>
+          Before understanding bias-variance tradeoff, we need to understand the concept of overfitting and
+          underfitting.
+          Overfitting and underfitting are very closely related to bias and variance terms, but mind that, both the
+          concepts are
+          equally important to understand 'generalization error'(Unseen data).
+        </p>
 
-        <h2 id="the-pure-python-way">The Pure Python Way</h2>
-
-        <p>In general, an input sentence is just a string of characters in Python. We can use build in functions in
-          Python to generate n-grams quickly. Let&rsquo;s take the following sentence as a sample input:</p>
-
-        <pre><code class="language-python">s = &quot;Natural-language processing (NLP) is an area of computer science &quot; \
-    &quot;and artificial intelligence concerned with the interactions &quot; \
-    &quot;between computers and human (natural) languages.&quot;
-</code></pre>
-
-        <p>If we want to generate a list of bi-grams from the above sentence, the expected output would be something
-          like below (depending on how do we want to treat the punctuations, the desired output can be different):</p>
-
-        <pre><code class="language-python">[
-    &quot;natural language&quot;,
-    &quot;language processing&quot;,
-    &quot;processing nlp&quot;,
-    &quot;nlp is&quot;,
-    &quot;is an&quot;,
-    &quot;an area&quot;,
-    ...
-]
-</code></pre>
-
-        <p>The following function can be used to achieve this:</p>
-
-        <pre><code class="language-python">import re
-
-def generate_ngrams(s, n):
-    # Convert to lowercases
-    s = s.lower()
-    
-    # Replace all none alphanumeric characters with spaces
-    s = re.sub(r'[^a-zA-Z0-9\s]', ' ', s)
-    
-    # Break sentence in the token, remove empty tokens
-    tokens = [token for token in s.split(&quot; &quot;) if token != &quot;&quot;]
-    
-    # Use the zip function to help us generate n-grams
-    # Concatentate the tokens into ngrams and return
-    ngrams = zip(*[token[:i] for i in range(n)])
-    return [&quot; &quot;.join(ngram) for ngram in ngrams]
-</code></pre>
-
-        <p>Applying the above function to the sentence, with <code>n=5</code>, gives the following output:</p>
-
-        <pre><code class="language-python">&gt;&gt;&gt; generate_ngrams(s, n=5)
-['natural language processing nlp is',
- 'language processing nlp is an',
- 'processing nlp is an area',
- 'nlp is an area of',
- 'is an area of computer',
- 'an area of computer science',
- 'area of computer science and',
- 'of computer science and artificial',
- 'computer science and artificial intelligence',
- 'science and artificial intelligence concerned',
- 'and artificial intelligence concerned with',
- 'artificial intelligence concerned with the',
- 'intelligence concerned with the interactions',
- 'concerned with the interactions between',
- 'with the interactions between computers',
- 'the interactions between computers and',
- 'interactions between computers and human',
- 'between computers and human natural',
- 'computers and human natural languages']
-</code></pre>
-
-        <p>The above function makes use of the <code>zip</code> function, which creates a generator that aggregates
-          elements from multiple lists (or iterables in genera). The blocks of codes and comments below offer some more
-          explanation of the usage:</p>
-
-        <pre><code class="language-python"># Sample sentence
-s = &quot;one two three four five&quot;
-
-tokens = s.split(&quot; &quot;)
-# tokens = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, &quot;four&quot;, &quot;five&quot;]
-
-sequences = [tokens[i:] for i in range(3)]
-# The above will generate sequences of tokens starting from different
-# elements of the list of tokens.
-# The parameter in the range() function controls how many sequences
-# to generate.
-#
-# sequences = [
-#   ['one', 'two', 'three', 'four', 'five'],
-#   ['two', 'three', 'four', 'five'],
-#   ['three', 'four', 'five']]
-
-bigrams = zip(*sequences)
-# The zip function takes the sequences as a list of inputs (using the * operator,
-# this is equivalent to zip(sequences[0], sequences[1], sequences[2]).
-# Each tuple it returns will contain one element from each of the sequences.
-# 
-# To inspect the content of bigrams, try:
-# print(list(bigrams))
-# which will give the following:
-#
-# [('one', 'two', 'three'), ('two', 'three', 'four'), ('three', 'four', 'five')]
-#
-# Note: even though the first sequence has 5 elements, zip will stop after returning
-# 3 tuples, because the last sequence only has 3 elements. In other words, the zip
-# function automatically handles the ending of the n-gram generation.
-</code></pre>
-
-        <h2 id="using-nltk">Using NLTK</h2>
-
-        <p>Instead of using pure Python functions, we can also get help from some natural language processing libraries
-          such as the <a href="https://www.nltk.org/">Natural Language Toolkit (NLTK)</a>. In particular, nltk has the
-          <code>ngrams</code> function that returns a generator of n-grams given a tokenized sentence. (See the
-          documentaion of the function <a href="http://www.nltk.org/api/nltk.html#nltk.util.ngrams">here</a>)</p>
-
-        <pre><code class="language-python">import re
-from nltk.util import ngrams
-
-s = s.lower()
-s = re.sub(r'[^a-zA-Z0-9\s]', ' ', s)
-tokens = [token for token in s.split(&quot; &quot;) if token != &quot;&quot;]
-output = list(ngrams(tokens, 5))
-</code></pre>
-
-        <p>The above block of code will generate the same output as the function <code>generate_ngrams()</code> as
-          shown above.</p>
+        <h2 id="content">Content</h2>
+        <ol>
+          <li>
+            <a href="#over-under">How overfitting and underfitting works?</a>
+          </li>
+          <li>
+            <a href="#bias-variance">What is bias and variance?</a>
+          </li>
+          <li>
+            <a href="#bias-variance-tradeoff">Understanding bias-variance tradeoff</a>Further Reading
+          </li>
+          <li>
+            <a href="#reference">Further Reading</a>
+          </li>
+        </ol>
 
 
+        <h2 name="over-under" id="over-under">How overfitting and underfitting works?</h2>
+        <p>
+          We can explain overfitting and underfitting concepts using KNN(K-Nearest Neighbour) model.
+          As the value of 'k' changes, model starts to fall in the overfit or underfit zone.
+          How it works, is explained in the following image.
+        </p>
+        <img src="../../images/overfitting_underfitting.jpg" alt="over-under" width="800" height="450">
+        <p>
+          As we can see in the above image,when k=1, we get overfit model, because decision boundary considers each and
+          every point in the data.When k=n, we starts to underfit as model starts to favour the class which has
+          majority in the dataset.
+          We must always find the decision boundary between overfit and underfit zone,(here it is k=5),which is also
+          considered as a well fit model
+        </p>
+        <p>
+          We understood the geometric intuition behind the overfitting and underfitting concept.
+          Now lets understand the few cocepts like bias and variance.
+        </p>
 
+        <h2 name="bias-variance" id="bias-variance">What is bias and variance?</h2>
+        <p>
+          To understand the mathematical basis, we have a concept like 'bias-variance tradeoff', which comes from the
+          field of
+          statistical/theoratical machine learning.<br /><br />
+          <b>Bias(underfitting): Set of assumptions that the learner uses to predict outputs, given inputs that it has
+            not encountered.</b><br /><br />
+          In machine learning, one aims to construct algorithms that are able to learn to predict a certain target
+          output.
+          To achieve this, the learning algorithm is presented some training examples that demonstrate the intended
+          relation of input and output values.
+          Then the learner is supposed to approximate the correct output, even for examples that have not been shown
+          during training.
+          Without any additional assumptions, this problem cannot be solved exactly since unseen situations might have
+          an arbitrary output value.
+          The kind of necessary assumptions about the nature of the target function are subsumed in the phrase
+          'inductive bias'.<br /><br />
+          <b>Variance(overfitting): An error from sensitivity to small fluctuations in the training set.</b><br /><br />
+          Small changes in training dataset results in very different model(decision surfaces) and this large changes
+          in the model
+          is generally referred as 'high-variance model'.
+        </p>
+        <p>
+          We understood the concept of bias and variance,now lets understand our main concept of 'bias-variance
+          tradeoff'
+        </p>
 
+        <h2 name="bias-variance-tradeoff" id="bias-variance-tradeoff">Understanding bias-variance tradeoff</h2>
+        <p>
+          <b>The mathematical formula for 'bias-variance tradeoff': </b><br />
+          <p>
+            <img src="../../images/bias-varince-tradeoff.jpg" alt="over-under" width="800" height="200">
+          </p>
+        </p>
+        <p>
+          <b>Generalization Error: </b>Future unseen data(like, using test dataset to evaluate a model).<br />
+          <b>Bias: </b>Error due to simplifying assumptions.<br />
+          <b>Variance: </b>Error caused by model due to slight change in training data.<br />
+          <b>Irreducible Error: </b>Error that can't reduce further.<br />
+        </p>
+        <p>
+          We must reduce the generalization error to get unbiased low variance model.
+          And to achive that, we should reduce the bias and variance in the model.<br /><br />
+          Now lets understand the bias term first,by assuming that we have 80% -ve points and 20% +ve points in our
+          training dataset
+          <p>
+            <img src="../../images/gen-err.jpg" alt="over-under" width="500" height="300">
+          </p>
+          Here we can easily see that non linear(curve) decision boundary(boundary-1) can easily separate -ve points
+          form +ve points.
+          But suppose we made the simplifying model assumption that our model will use line or plane(boundary-2 or
+          boundary-3)
+          to separate -ve points from +ve points.<br /><br />
+          We can see that, if we use boundary-2 and boundary-3 as a decision surface then we will misclassify most of
+          the points as wrong class labels.
+        </p>
+        <p>
+          Our training dataset is highly imbalanced towards -ve points, then for every query point, model will predict
+          -ve points as a resultant class label.(that means model is underfitting)
+          <b>That means due to simplifying assumption, our model will become 'high bias model'.</b><br />
+          We understood the high bias concept, now lets undestand how high variance affects our model to overfit.
+        </p>
+        <p>
+          Now lets understand the variance term.Random splitting is performed two times and KNN model is trained with
+          k=1
+          <p>
+            <img src="../../images/high-var.jpg" alt="over-under" width="800" height="500">
+          </p>
+          From figure, we can evaluate that small changes in training dataset result in very different model(decision
+          surface) and
+          this large changes in the model is generally referred as 'high variance model'(that means model is
+          overfitting).
+        </p>
+        <p>
+          *** Values are assumed to understand the concept better,(bias + variance + irreducible error)<br />
+          k = 1 , 10 + 100 + 3 ---> 113 (Overfit)<br />
+          k = 5 , 12 + 10 + 3 ---> 25 (Well fit)<br />
+          k = 1 , 100 + 2 + 3 ---> 105 (Underfit)<br />
+        </p>
+
+        <p>
+          So at the end we conclude that,there is no escaping the relationship between bias and variance in machine
+          learning.<br />
+          ~~> Increasing the bias will decrease the variance.<br />
+          ~~> Increasing the variance will decrease the bias.<br /><br />
+
+          There is a trade-off at play between these two concerns and the algorithms you choose and the way you choose
+          to configure them are finding different balances in this trade-off for your problem.
+          <p>
+            In reality, we cannot calculate the real bias and variance error terms because we do not know the actual
+            underlying target function. Nevertheless, as a framework, bias and variance provide the tools to understand
+            the behavior of machine learning algorithms in the pursuit of predictive performance.
+          </p>
+        </p>
+        <h2 name="reference" id="reference">Further Reading</h2>
+        <p>
+          This section lists some recommend resources if you are looking to learn more about bias, variance and the
+          bias-variance trade-off.
+          <ul>
+            <li><a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff">wikipedia</a></li>
+            <li><a href="https://en.wikipedia.org/wiki/Inductive_bias">wikipedia</a></li>
+            <li><a href="https://www.appliedaicourse.com/course/applied-ai-course-online/lessons/bias-variance-tradeoff-3/">Applied ai course</a></li>
+            <li><a href="https://www.youtube.com/watch?v=zrEyxfl2-a8&list=PLD63A284B7615313A&index=8">youtube</a></li>
+          </ul>
+        </p>
       </article>
 
 
@@ -192,23 +212,15 @@ output = list(ngrams(tokens, 5))
 
       <script type="text/javascript">
 
-        /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-        /*
-        var disqus_config = function () {
-        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-        };
-        */
-        (function () { // DON'T EDIT BELOW THIS LINE
-          var d = document, s = d.createElement('script');
-          s.src = 'https://mangeshingle.disqus.com/embed.js';
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
+        var disqus_shortname = 'mangeshingle';
+        (function () {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
         })();
       </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+          Disqus.</a></noscript>
 
 
 
@@ -222,11 +234,9 @@ output = list(ngrams(tokens, 5))
 
     </nav>
 
-
-
     <footer role="contentinfo">
       <div style="text-align:center; font-size: 0.8em">
-        Copyright © 2017 Albert Au Yeung. All Rights Reserved.
+        Copyright © 2018 Mangesh Ingle. All Rights Reserved.
       </div>
     </footer>
 
@@ -265,17 +275,15 @@ output = list(ngrams(tokens, 5))
 
   <script>
     (function (i, s, o, g, r, a, m) {
-    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-      (i[r].q = i[r].q || []).push(arguments)
-    }, i[r].l = 1 * new Date(); a = s.createElement(o),
-      m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
     })(window, document, 'script', '../../../www.google-analytics.com/analytics.js', 'ga');
     ga('create', 'UA-30554548-1', 'auto');
     ga('send', 'pageview');
   </script>
 
 </body>
-
-<!-- Mirrored from www.albertauyeung.com/post/generating-ngrams-python/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 02 Nov 2018 14:48:01 GMT -->
 
 </html>

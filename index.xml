@@ -18,102 +18,10 @@
       
       <guid>http://www.mangeshingle.com/post/bias-variance-tradeoff/</guid>
       <description>
-      <a href="https://en.wikipedia.org/wiki/N-gram">Bias-Variance Tradeoff</a> decomposition is a way of analyzing a learning algorithm's 
+      <a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff">Bias-Variance Tradeoff</a> decomposition is a way of analyzing a learning algorithm's 
           expected generalization error with respect to a particular problem as a sum of three terms, 
           the bias, variance, and a quantity called the irreducible error, resulting from noise in the problem itself.      
       </description>
-    </item
-    
-    
-    <item>
-      <title>Generating N-grams from Sentences Python</title>
-      <link>http://www.mangeshingle.com/post/generating-ngrams-python/</link>
-      <pubDate>Sun, 03 Jun 2018 15:28:00 +0800</pubDate>
-      
-      <guid>http://www.mangeshingle.com/post/generating-ngrams-python/</guid>
-      <description>N-grams are contiguous sequences of n-items in a sentence. N can be 1, 2 or any other positive integers, although usually we do not consider very large N because those n-grams rarely appears in many different places.
-When performing machine learning tasks related to natural language processing, we usually need to generate n-grams from input sentences. For example, in text classification tasks, in addition to using each individual token found in the corpus, we may want to add bi-grams or tri-grams as features to represent our documents.</description>
-    </item>
-    
-    <item>
-      <title>Gradient Boosting Talk at PyCon HK 2017</title>
-      <link>http://www.mangeshingle.com/post/pycon2017-gradient-boosting/</link>
-      <pubDate>Mon, 06 Nov 2017 17:09:00 +0800</pubDate>
-      
-      <guid>http://www.mangeshingle.com/post/pycon2017-gradient-boosting/</guid>
-      <description>PyCon HK 2017 was held on 4-5th November 2017 at the City University of Hong Kong. I gave a talk on using the LightGBM library to build gradient boosting models. The slides of the talk can be found at the link below:
-http://talks.mangeshingle.com/pycon2017-gradient-boosting
-The video of the talk can be found on Youtube at https://www.youtube.com/watch?v=Wjev_fLNeOU.</description>
-    </item>
-    
-    <item>
-      <title>Deep Learning and Its Applications - Research Seminar at HSMC</title>
-      <link>http://www.mangeshingle.com/post/deep-learning-talk-2017/</link>
-      <pubDate>Fri, 21 Jul 2017 17:09:00 +0800</pubDate>
-      
-      <guid>http://www.mangeshingle.com/post/deep-learning-talk-2017/</guid>
-      <description>I gave a talk on deep learning and its applications in a research seminar at the Deep Learning Research &amp;amp; Application Centre (DLC), Hang Seng Management College on 20th July, 2017. The slides of the talk can be found at the link below:
-http://talks.mangeshingle.com/deep-learning</description>
-    </item>
-    
-    <item>
-      <title>Making pandas Operations Faster</title>
-      <link>http://www.mangeshingle.com/post/fast-operation-pandas/</link>
-      <pubDate>Sat, 08 Jul 2017 17:09:00 +0800</pubDate>
-      
-      <guid>http://www.mangeshingle.com/post/fast-operation-pandas/</guid>
-      <description>pandas is one of the most commonly used Python library in data analysis and machine learning. It is versatile and can be used to handle many different types of data. Before feeding a model with training data, one would most probably pre-process the data and perform feature extraction on data stored as pandas DataFrame. I have been using pandas extensively in my work, and have recently discovered that the time required to manipulate data stored in a DataFrame can vary hugely depending on the method you used.</description>
-    </item>
-    
-    <item>
-      <title>Performing Sequence Labelling using CRF in Python</title>
-      <link>http://www.mangeshingle.com/post/python-sequence-labelling-with-crf/</link>
-      <pubDate>Tue, 23 May 2017 17:06:02 +0800</pubDate>
-      
-      <guid>http://www.mangeshingle.com/post/python-sequence-labelling-with-crf/</guid>
-      <description>Sequence Labelling in NLP In natural language processing, it is a common task to extract words or phrases of particular types from a given sentence or paragraph. For example, when performing analysis of a corpus of news articles, we may want to know which countries are mentioned in the articles, and how many articles are related to each of these countries.
-This is actually a special case of sequence labelling in NLP (others include POS tagging and Chunking), in which the goal is to assign a label to each member in the sequence.</description>
-    </item>
-    
-    <item>
-      <title>Matrix Factorization: A Simple Tutorial and Implementation in Python</title>
-      <link>http://www.mangeshingle.com/post/python-matrix-factorization/</link>
-      <pubDate>Sun, 23 Apr 2017 17:04:51 +0800</pubDate>
-      
-      <guid>http://www.mangeshingle.com/post/python-matrix-factorization/</guid>
-      <description>(This is an updated version of the article published on my previous personal Website and quuxlab)
-There is probably no need to say that there is too much information on the Web nowadays. Search engines help us a little bit. What is better is to have something interesting recommended to us automatically without asking. Indeed, from as simple as a list of the most popular questions and answers on Quora to some more personalized recommendations we received on Amazon, we are usually offered recommendations on the Web.</description>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>http://www.mangeshingle.com/about/</link>
-      <pubDate>Thu, 20 Apr 2017 21:29:20 +0800</pubDate>
-      
-      <guid>http://www.mangeshingle.com/about/</guid>
-      <description>I am currently machine learning lead engineer at zwoop. My interests in computer science lies in machine learning, natural language processing, social network analysis, data mining and other general A.I. problems.
-Before joining zwoop, I was the co-founder and CTO of Axon Labs Limited. My previous positions included researcher at Huawei&amp;rsquo;s Noah&amp;rsquo;s Ark Lab, senior engineer at the Hong Kong Applied Science and Technology Research Institute (ASTRI), and research associate (post-doctoral researcher) at the NTT Communication Science Laboratories in Kyoto, Japan.</description>
-    </item>
-    
-    <item>
-      <title>Deploying Jupyter in Ubuntu with Nginx and Supervisor</title>
-      <link>http://www.mangeshingle.com/post/setup-jupyter-nginx-supervisor/</link>
-      <pubDate>Tue, 21 Mar 2017 14:55:50 +0800</pubDate>
-      
-      <guid>http://www.mangeshingle.com/post/setup-jupyter-nginx-supervisor/</guid>
-      <description>The IPython Notebook, now called Jupyter Notebook, is a convenient and interactive Web application for fast prototyping and testing ideas in Python (and R, Julia , Scala, and others) in the Web browser.
-Installing it on Ubuntu is easy, but it takes a little bit more effort to deploy it on a server and have it run as a service. This article serves as a simple guide to deploy Jupyter in a Ubuntu server, using the Nginx Web server and the supervisor system.</description>
-    </item>
-    
-    <item>
-      <title>Location and Friendship: Data Mining in Facebook</title>
-      <link>http://www.mangeshingle.com/post/location-and-friendship-in-facebook/</link>
-      <pubDate>Sun, 05 Sep 2010 16:00:00 +0800</pubDate>
-      
-      <guid>http://www.mangeshingle.com/post/location-and-friendship-in-facebook/</guid>
-      <description>In the past, studying social issues such as the mobility of a group of people generally required a huge amount of effort. Questionnaires would have had to be prepared, distributed, and collected after they were filled in. It was and still is a labor-intensive task when face-to-face interviews are required to obtain various personal data.
-Nowadays, we have more and more people connected to the Internet, and many of these Internet users participate in various kinds of social interactions on the Web.</description>
-    </item>
-    
+    </item>    
   </channel>
 </rss>
